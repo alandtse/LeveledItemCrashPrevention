@@ -33,8 +33,8 @@ namespace Hooks {
         SKSE::AllocTrampoline(14);
         auto& trampoline = SKSE::GetTrampoline();
 
-        REL::Relocation<std::uintptr_t> target{ REL::ID(55965), 0x56 };
-        if (!REL::make_pattern<"E8 75 1C 7C FF">().match(target.address())) {
+        REL::Relocation<std::uintptr_t> target{ REL::ID(55401), 0x56 };
+        if (!REL::make_pattern<"E8 55 ED 80 FF">().match(target.address())) {
             _loggerInfo("Failed to validate hook address for ProtectLevItems. Aborting load.");
             return false;
         }
@@ -58,8 +58,8 @@ namespace Hooks {
         SKSE::AllocTrampoline(14);
         auto& trampoline = SKSE::GetTrampoline();
 
-        REL::Relocation<std::uintptr_t> target{ REL::ID(55954), 0x56 };
-        if (!REL::make_pattern<"E8 F5 24 7C FF">().match(target.address())) {
+        REL::Relocation<std::uintptr_t> target{ REL::ID(55387), 0x56 };
+        if (!REL::make_pattern<"E8 05 F5 80 FF">().match(target.address())) {
             _loggerInfo("Failed to validate hook address for ProtectLeveledActors. Aborting load.");
             return false;
         }
@@ -83,8 +83,8 @@ namespace Hooks {
         SKSE::AllocTrampoline(14);
         auto& trampoline = SKSE::GetTrampoline();
 
-        REL::Relocation<std::uintptr_t> target{ REL::ID(55976), 0x56 };
-        if (!REL::make_pattern<"E8 65 13 7C FF">().match(target.address())) {
+        REL::Relocation<std::uintptr_t> target{ REL::ID(55415), 0x56 };
+        if (!REL::make_pattern<"E8 25 E5 80 FF">().match(target.address())) {
             _loggerInfo("Failed to validate hook address for ProtectLeveledSpells. Aborting load.");
             return false;
         }

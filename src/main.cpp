@@ -42,7 +42,7 @@ void MessageHandler(SKSE::MessagingInterface::Message* a_message) {
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
 {
     a_info->infoVersion = Version::MAJOR, Version::MINOR, Version::PATCH;
-    a_info->name = "ContainerDistributionFramework";
+    a_info->name = "LeveledList Crash Fix";
     a_info->version = Version::MAJOR;
 
     if (a_skse->IsEditor()) {

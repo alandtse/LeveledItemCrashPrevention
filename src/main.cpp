@@ -1,6 +1,8 @@
 #include <spdlog/sinks/basic_file_sink.h>
 
 #include "hooks.h"
+#include "sanitizer.h"
+#include "settings.h"
 
 void SetupLog() {
     auto logsFolder = SKSE::log::log_directory();
@@ -22,6 +24,19 @@ void SetupLog() {
 
     //Pattern
     spdlog::set_pattern("%v");
+}
+
+void MessageHandler(SKSE::MessagingInterface::Message* a_message) {
+    switch (a_message->type) {
+    case SKSE::MessagingInterface::kDataLoaded:
+        if (Settings::Holder::GetSingleton()->ShouldSanitize()) {
+            Sanitizer::Sanitize();
+            _loggerInfo("-------------------------------------------------------------------------------------");
+        }
+        break;
+    default:
+        break;
+    }
 }
 
 extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Query(const SKSE::QueryInterface* a_skse, SKSE::PluginInfo* a_info)
@@ -58,5 +73,12 @@ extern "C" DLLEXPORT bool SKSEAPI SKSEPlugin_Load(const SKSE::LoadInterface* a_s
         SKSE::stl::report_and_fail("Failed to validate hooks. Aborting load.");
         return false;
     }
+    _loggerInfo("-------------------------------------------------------------------------------------");
+
+    Settings::Holder::GetSingleton()->ReadSettings();
+
+    auto messaging = SKSE::GetMessagingInterface();
+    messaging->RegisterListener(MessageHandler);
+
     return true;
 }

@@ -1,5 +1,7 @@
 #include "hooks.h"
 
+#include "settings.h"
+
 namespace Hooks {
     void DebugLeveledList(RE::TESLeveledList* a_list, RE::TESForm* a_problem) {
         auto* form = skyrim_cast<RE::TESBoundObject*>(a_list);
@@ -17,6 +19,9 @@ namespace Hooks {
             ++i;
         }
         _loggerInfo("___________________________________________________");
+        if (Settings::Holder::GetSingleton()->ShouldWarn()) {
+            RE::DebugMessageBox("Warning: Caught bad AddForm. Check <My Games/Skyrim Special Edition/SKSE/LeveledListCrashPrevention.log> for more information. This message is safe to ignore.");
+        }
     }
 
     //Leveled Items
@@ -38,7 +43,7 @@ namespace Hooks {
             _loggerInfo("Failed to validate hook address for ProtectLevItems. Aborting load.");
             return false;
         }
-
+        _loggerInfo("Installed leveled item patch.");
         _originalCall = trampoline.write_call<5>(target.address(), &AddForm);
         return true;
     }
@@ -64,6 +69,7 @@ namespace Hooks {
             return false;
         }
 
+        _loggerInfo("Installed leveled actor patch.");
         _originalCall = trampoline.write_call<5>(target.address(), &AddForm);
         return true;
     }
@@ -89,6 +95,7 @@ namespace Hooks {
             return false;
         }
 
+        _loggerInfo("Installed leveled spell patch.");
         _originalCall = trampoline.write_call<5>(target.address(), &AddForm);
         return true;
     }
